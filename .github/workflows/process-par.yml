@@ -1,0 +1,52 @@
+name: Process new PAR file
+
+on:
+  push:
+    paths:
+      - "incoming/**.xlsx"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pandas openpyxl
+
+      - name: Convert PAR files to dashboard data
+        run: |
+          shopt -s nullglob
+          mkdir -p processed
+          found=0
+          for f in incoming/*.xlsx; do
+            found=1
+            echo "Processing: $f"
+            python update_data.py "$f"
+            mv "$f" processed/
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "No xlsx files found in incoming/ — nothing to do."
+          fi
+
+      - name: Commit results
+        run: |
+          git config user.name "par-bot"
+          git config user.email "actions@github.com"
+          git add data/ processed/ incoming/ || true
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "Auto-process PAR weekly data"
+            git push
+          fi
