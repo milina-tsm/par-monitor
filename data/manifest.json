@@ -1,6 +1,21 @@
 {
   "weeks": [
     {
+      "date": "2026-05-18",
+      "file": "2026-05-18.json",
+      "label": "Week of May 18, 2026"
+    },
+    {
+      "date": "2026-05-26",
+      "file": "2026-05-26.json",
+      "label": "Week of May 26, 2026"
+    },
+    {
+      "date": "2026-06-01",
+      "file": "2026-06-01.json",
+      "label": "Week of Jun 1, 2026"
+    },
+    {
       "date": "2026-06-08",
       "file": "2026-06-08.json",
       "label": "Week of Jun 8, 2026"
