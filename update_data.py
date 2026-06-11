@@ -39,7 +39,7 @@ ITEM_STATUS_KEY = {
 
 
 def parse_date_from_filename(name: str):
-m = re.search(r"(\d{2})[._\- ](\d{2})[._\- ](\d{4})", name)
+    m = re.search(r"(\d{2})[._\- ](\d{2})[._\- ](\d{4})", name)
     if m:
         mm, dd, yyyy = m.groups()
         return f"{yyyy}-{mm}-{dd}"
